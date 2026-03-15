@@ -1,17 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context'; // <-- 1. Importamos el medidor
+import { useColorScheme } from 'react-native'; // <-- Importamos el sensor de color
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function AppLayout() {
-  const insets = useSafeAreaInsets(); // <-- 2. Medimos los botones de tu Xiaomi
+  const insets = useSafeAreaInsets(); 
+  const tema = useColorScheme(); // Averiguamos qué tema tiene el celular
+  const esOscuro = tema === 'dark';
 
   return (
     <Tabs screenOptions={{ 
       tabBarActiveTintColor: '#007BFF', 
-      tabBarInactiveTintColor: '#888',  
+      tabBarInactiveTintColor: esOscuro ? '#888' : '#888',  
       headerShown: false, 
       tabBarStyle: { 
-        // 3. Le sumamos el tamaño de tus botones (insets.bottom) al espacio de la barra
+        backgroundColor: esOscuro ? '#1E1E1E' : '#ffffff', // Barra oscura o blanca
+        borderTopColor: esOscuro ? '#333' : '#eee', // Borde oscuro o claro
         paddingBottom: insets.bottom + 5, 
         height: 60 + insets.bottom, 
       } 
@@ -36,7 +40,6 @@ export default function AppLayout() {
           )
         }} 
       />
-
     </Tabs>
   );
 }
